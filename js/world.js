@@ -53,7 +53,7 @@
     const scene = new THREE.Scene();
     const horizon = new THREE.Color('#ebb790');
     scene.fog = new THREE.Fog(horizon, 220, 1700);
-    const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 6000);
+    const camera = new THREE.PerspectiveCamera(42, 1, 0.6, 6000);
 
     // ---- sky: gradient, sun, soft procedural clouds
     const sunDir = new THREE.Vector3(-0.55, 0.24, 0.8).normalize();
@@ -90,11 +90,12 @@
     scene.add(sunL, sunL.target);
 
     // ---- ground follows the elevation profile (hill, mesa, canyon, tower); steep faces shade to rock
-    const grass = canvasTex(512, 512, (g, w, h) => speckle(g, w, h, '#8b8052', ['#a0935f', '#6e6a40', '#b6a873', '#5d5a37', '#7d7a4a'], 12000, 3), [1, 1]);
-    const asphalt = canvasTex(512, 512, (g, w, h) => speckle(g, w, h, '#383b3f', ['#4a4d51', '#2b2e31', '#56595d'], 16000, 2), [1, 1]);
+    const grass = canvasTex(512, 512, (g, w, h) => speckle(g, w, h, '#8b8052', ['#938757', '#7f7549', '#9a8e5e', '#857b4e'], 9000, 4), [1, 1]);
+    const asphalt = canvasTex(512, 512, (g, w, h) => speckle(g, w, h, '#383b3f', ['#3f4246', '#33363a', '#44474b'], 9000, 3), [1, 1]);
     const ground = new THREE.Mesh(terrainGeometry(-4000, 4000, -4000, 4000, 1 / 15, true), new THREE.MeshStandardMaterial({ map: grass, roughness: 1, vertexColors: true }));
     ground.receiveShadow = true; scene.add(ground);
-    const road = new THREE.Mesh(terrainGeometry(-478, -56, -10, 10, 1 / 8, false, 0.03), new THREE.MeshStandardMaterial({ map: asphalt, roughness: 0.9 }));
+    const layer = (mat, n) => { mat.polygonOffset = true; mat.polygonOffsetFactor = -n; mat.polygonOffsetUnits = -n; return mat; };
+    const road = new THREE.Mesh(terrainGeometry(-478, -56, -10, 10, 1 / 8, false, 0.03), layer(new THREE.MeshStandardMaterial({ map: asphalt, roughness: 0.9 }), 2));
     road.receiveShadow = true; scene.add(road);
     const hillMat = new THREE.MeshStandardMaterial({ color: '#6f6a4a', roughness: 1, flatShading: true });
     for (let i = 0; i < 26; i++) {
@@ -107,9 +108,10 @@
     // ---- pad + markings
     const asphaltR = asphalt.clone(); asphaltR.repeat.set(70, 3); asphaltR.needsUpdate = true;
     const padLen = C.X0 + 100 - 14;
-    const pad = new THREE.Mesh(new THREE.PlaneGeometry(padLen, 24), new THREE.MeshStandardMaterial({ map: asphaltR, roughness: 0.9 }));
+    const pad = new THREE.Mesh(new THREE.PlaneGeometry(padLen, 24), layer(new THREE.MeshStandardMaterial({ map: asphaltR, roughness: 0.9 }), 2));
     pad.rotation.x = -Math.PI / 2; pad.position.set(-56 + padLen / 2, 0.01, -3); pad.receiveShadow = true; scene.add(pad);
     const paint = (x1, x2, z1, z2, mat, y) => {
+      layer(mat, 5);
       const m = new THREE.Mesh(new THREE.PlaneGeometry(x2 - x1, z2 - z1), mat);
       m.rotation.x = -Math.PI / 2; m.position.set((x1 + x2) / 2, y || 0.02, (z1 + z2) / 2); m.receiveShadow = true; scene.add(m); return m;
     };
@@ -239,11 +241,15 @@
       car.wing.position.y = 1.4 - P.CAR.cmH + 0.1 * car.wingT; car.wing.rotation.z = -0.12 * car.wingT;
       // plume length follows the expansion state: under-expanded jets flare longer, fading ones shrink
       const u = s.unit || {}, ex = u.ok ? THREE.MathUtils.clamp((u.pe || 0) / s.env.pa, 0.55, 1.6) : 0.6;
+      if (!car.vis) car.vis = new Float64Array(10);
       for (let i = 0; i < 10; i++) {
-        const v = s.valve[i], pc = car.plumes[i];
-        pc.visible = v > 0.02;
+        const raw = s.valve[i], pc = car.plumes[i];
+        // fast attack, slow release (~0.12 s): flight-assist trim pulses read as a steady glow
+        car.vis[i] += (raw - car.vis[i]) * (1 - Math.exp(-dt / (raw > car.vis[i] ? 0.025 : 0.12)));
+        const v = car.vis[i];
+        pc.visible = v > 0.03;
         if (pc.visible) { pc.scale.set(0.7 + v * 0.6, (0.4 + v * 1.1) * ex, 0.7 + v * 0.6); pc.material.opacity = 0.3 * v; }
-        car.nozzles[i].material = v > 0.02 ? car.nozMatOn : car.nozMat;
+        car.nozzles[i].material = v > 0.08 ? car.nozMatOn : car.nozMat;
       }
       const gh = P.terrainH(s.x).h;
       const hgt = Math.max(0, s.y - P.CAR.cmH - gh);
@@ -336,8 +342,9 @@
       const fxp = state.showroom ? state.frame.x : 0.5, fyp = state.showroom ? state.frame.y : 0.5;
       if (fxp !== 0.5 || fyp !== 0.5) camera.setViewOffset(w, h, w * (0.5 - fxp), h * (0.5 - fyp), w, h); else if (camera.view && camera.view.enabled) camera.clearViewOffset();
       const gy = P.terrainH(s.x).h;
-      sunL.position.set(s.x + sunDir.x * 120, gy + sunDir.y * 120, sunDir.z * 120);
-      sunL.target.position.set(s.x, gy, 0);
+      const sx = Math.round(s.x / 2) * 2, sy = Math.round(gy / 2) * 2;   // quantised: 2 m is a whole number of shadow texels
+      sunL.position.set(sx + sunDir.x * 120, sy + sunDir.y * 120, sunDir.z * 120);
+      sunL.target.position.set(sx, sy, 0);
     }
 
     function render(s, dt, RH, emit) {

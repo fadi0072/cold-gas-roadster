@@ -82,8 +82,10 @@
     g.textAlign = 'left'; g.fillText('◀ BOOST', 10, H - 8);
     g.textAlign = 'center'; g.fillText('● LIFT (under)', W / 2, H - 8);
     g.textAlign = 'right'; g.fillText('ROLL (sides) ▲▼', W - 10, H - 8);
+    if (!nozzles.vis) nozzles.vis = new Float64Array(10);
     P.NOZZLES.forEach((n, i) => {
-      const v = s.valve[i];
+      nozzles.vis[i] += (s.valve[i] - nozzles.vis[i]) * (s.valve[i] > nozzles.vis[i] ? 0.7 : 0.25);
+      const v = nozzles.vis[i];
       let x = sx(n.p[0]), y = sy(n.p[2]);
       if (n.g === 'roll') { x += n.d[1] > 0 ? -16 : 16; y += n.p[2] > 0 ? 16 : -16; }
       if (n.g === 'boost') x -= 10;

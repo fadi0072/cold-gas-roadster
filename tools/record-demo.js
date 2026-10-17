@@ -14,7 +14,14 @@ const URL = 'file://' + path.join(ROOT, 'index.html') + '#record';
 const CHROME = process.env.CHROME || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 
 // Each shot: how to get there (ff = fast-forward predicate on sim s / autopilot a / app), camera, seconds, playback speed, caption.
-const SHOTS = [
+const SHORT = process.argv[3] === 'short';
+const SHOTS_SHORT = [
+  { id: 'intro', seconds: 3.0, card: { kicker: 'Inspired by the Tesla Roadster reveal · Oct 15, 2026', title: 'Cold Gas Roadster', sub: 'Upside-down loop · cold-gas hover · kickflip' } },
+  { id: 'loop', start: ['practice', 1], cam: 'side', seconds: 9.0, speed: 0.85, cap: ['The loop', 'Fan suction holds the car upside down, then air jets roll it upright and set it down softly.'] },
+  { id: 'kickflip', start: ['practice', 2], ff: "a.phase === 'run3' && s.x < 112", cam: 'stands', seconds: 7.0, speed: 0.8, cap: ['The kickflip', 'Over a Model 3, Model Y, Cybertruck, Cybercab and Semi, on 10 compressed-air nozzles.'] },
+  { id: 'outro', seconds: 3.5, card: { kicker: 'Fan-made, not affiliated with Tesla or SpaceX', title: 'Play it free', sub: 'cold-gas-roadster.vercel.app' } },
+];
+const SHOTS_FULL = [
   { id: 'intro', seconds: 4.5, card: { kicker: 'A physics game of Tesla\'s Oct 15, 2026 Roadster demo', title: 'Cold Gas Roadster', sub: 'Six stages · one working model of the compressed-air thrusters' } },
   { id: 'launch', start: ['full', 0], countdown: 0.9, cam: 'chase', seconds: 6.0, cap: ['Stage 1 · Launch', '1 MW motors plus two rear cold-gas jets: 0–60 mph in 0.82 s. Tesla showed 0.81 s live.'] },
   { id: 'loop', ff: "s.mode === 'ramp' && s.alpha > 0.35", cam: 'side', seconds: 9.0, speed: 0.85, cap: ['Stage 2 · Invert', 'Fan suction holds the car on upside down. Side jets roll it upright; lift jets cushion the landing.'] },
@@ -25,6 +32,7 @@ const SHOTS = [
   { id: 'results', ff: "app.screen === 'done'", results: true, seconds: 5.0, cap: ['Every run is scored', 'Air used, landing speed, 0–60 time: the physics is the game.'] },
   { id: 'outro', seconds: 4.5, card: { kicker: 'Play it in a browser or install it on your phone', title: 'Cold Gas Roadster', sub: 'Physics, source and references in the post' } },
 ];
+const SHOTS = SHORT ? SHOTS_SHORT : SHOTS_FULL;
 
 const OVERLAY_CSS = `
 #demoCap{position:fixed;left:50%;bottom:150px;transform:translateX(-50%);width:min(1100px,80vw);padding:18px 26px;border-radius:16px;background:rgba(9,12,18,.82);border:1px solid rgba(143,216,255,.35);backdrop-filter:blur(12px);color:#f2f4f7;font-family:Archivo,"Helvetica Neue",Arial,sans-serif;z-index:50;opacity:0;transition:opacity .35s,transform .35s;pointer-events:none}
@@ -53,7 +61,7 @@ async function main() {
   await page.addStyleTag({ content: OVERLAY_CSS });
   await page.evaluate(() => {
     document.body.insertAdjacentHTML('beforeend', '<div id="demoCap"><b></b><span></span></div><div id="demoCard"><div><div class="k"></div><div class="t"></div><div class="s"></div><div class="ic"><span>Web</span><span>·</span><span>Mobile</span><span>·</span><span>Real gas physics</span></div></div></div>');
-    const D = window.RSDebug; D.setManual(true); D.settings.sound = false; D.settings.shake = true;
+    const D = window.RSDebug; D.setManual(true); D.settings.sound = false; D.world.state.shakeOn = false;
     D.world.state.frame = { x: 0.5, y: 0.45 };
   });
   const cdp = await page.context().newCDPSession(page);
@@ -85,7 +93,7 @@ async function main() {
   }
   await browser.close();
 
-  const mp4 = path.join(OUT, 'cold-gas-roadster-demo.mp4');
+  const mp4 = path.join(OUT, process.argv[4] || (SHORT ? 'cold-gas-roadster-short.mp4' : 'cold-gas-roadster-demo.mp4'));
   execFileSync('ffmpeg', ['-y', '-framerate', String(FPS), '-i', path.join(FRAMES, 'f%05d.jpg'),
     '-c:v', 'libx264', '-preset', 'slow', '-crf', '18', '-pix_fmt', 'yuv420p', '-profile:v', 'high', '-level', '4.1', '-movflags', '+faststart',
     '-vf', 'format=yuv420p', mp4], { stdio: 'inherit' });
