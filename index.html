@@ -1,0 +1,463 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cold Gas Roadster</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Fly the Tesla Roadster's Oct 15 2026 McGregor demo on a working model of its 10-nozzle compressed-air thruster system.">
+<meta name="theme-color" content="#07090e">
+<!-- pwa:start -->
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Roadster">
+<!-- pwa:end -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Martian+Mono:wght@400;600&family=Syncopate:wght@400;700&display=swap">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5zM4 20.5V5.5M8 7h8M8 11h6"/></symbol>
+    <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></symbol>
+    <symbol id="i-flask" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6.5L4.6 18.4A1.7 1.7 0 0 0 6.1 21h11.8a1.7 1.7 0 0 0 1.5-2.6L14 9.5V3M7.5 15h9"/></symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24"><path d="M3 8h4l2-3h6l2 3h4v11H3z"/><circle cx="12" cy="13" r="3.5"/></symbol>
+    <symbol id="i-sound" viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4zM16.5 9a4 4 0 0 1 0 6M19 6.5a8 8 0 0 1 0 11"/></symbol>
+    <symbol id="i-mute" viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4zM17 9.5l5 5M22 9.5l-5 5"/></symbol>
+    <symbol id="i-gas" viewBox="0 0 24 24"><path d="M9.5 3h5M12 3v2.5M7 9.5a5 5 0 0 1 10 0V19a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2zM7 13.5h10"/></symbol>
+    <symbol id="i-retry" viewBox="0 0 24 24"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3M4.5 4v4.2h4.2"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3.5 11 12 4l8.5 7M6 9.5V20h12V9.5"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 3.5 21.5 20h-19zM12 10v4.5M12 17.2v.3"/></symbol>
+    <symbol id="i-expand" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></symbol>
+    <symbol id="i-install" viewBox="0 0 24 24"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 20h14"/></symbol>
+    <symbol id="i-keyboard" viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="2"/><path d="M6 10h.5M9.5 10h.5M13 10h.5M16.5 10h.5M7.5 14h9"/></symbol>
+    <symbol id="i-touch" viewBox="0 0 24 24"><path d="M9 11.5V5.5a1.8 1.8 0 0 1 3.6 0V11M12.6 10.5a1.8 1.8 0 0 1 3.6 0v3.8A6.2 6.2 0 0 1 10 20.5h-.6a5 5 0 0 1-4-2l-2.6-3.6a1.7 1.7 0 0 1 2.7-2l1.6 1.8"/></symbol>
+    <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0zM8 6H4.5a3.5 3.5 0 0 0 3.8 4M16 6h3.5a3.5 3.5 0 0 1-3.8 4M12 13v4M8.5 20.5h7"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.4"/></symbol>
+    <symbol id="i-car" viewBox="0 0 24 24"><path d="M2.5 15.5 5 11l5-2.5h4l3.5 2.5 4 1.2v3.3zM6.5 15.5a1.8 1.8 0 1 0 3.6 0M14.5 15.5a1.8 1.8 0 1 0 3.6 0"/></symbol>
+  </defs>
+</svg>
+
+<canvas id="scene" aria-label="3D view of the Roadster on the McGregor test pad" role="img"></canvas>
+<div id="glow" aria-hidden="true"></div>
+
+<!-- ============ LOADING ============ -->
+<section id="loading" class="screen center" aria-live="polite">
+  <div class="load-card">
+    <div class="eyebrow">McGregor, Texas · Oct 15, 2026</div>
+    <h1 class="display">Cold Gas Roadster</h1>
+    <div class="progress" role="progressbar" aria-label="Loading" aria-valuemin="0" aria-valuemax="100" aria-valuenow="5" id="loadProg"><i id="loadBar"></i></div>
+    <p id="loadText">Loading the 3D engine…</p>
+    <div id="loadError" hidden>
+      <p class="err">The 3D engine didn't load. Check your internet connection, then try again.</p>
+      <button class="btn btn-primary" type="button" onclick="location.reload()"><svg class="ic"><use href="#i-retry"/></svg>Try again</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOME ============ -->
+<section id="home" class="screen" hidden>
+  <div class="home-panel">
+    <header class="brand">
+      <div class="eyebrow">Tesla Roadster reveal · McGregor, Texas · Oct 15, 2026</div>
+      <h1 class="display">Cold Gas Roadster</h1>
+      <p class="tagline">Fly the reveal's three moves, then a hill climb, a canyon jump and a summit landing, on a working model of the car's compressed-air thrusters.</p>
+    </header>
+
+    <nav class="tabs" role="tablist" aria-label="Main menu">
+      <button role="tab" id="t-play" aria-controls="tab-play" aria-selected="true" class="tab"><svg class="ic"><use href="#i-play"/></svg><span>Play</span></button>
+      <button role="tab" id="t-guide" aria-controls="tab-guide" aria-selected="false" class="tab" tabindex="-1"><svg class="ic"><use href="#i-book"/></svg><span>How to play</span></button>
+      <button role="tab" id="t-settings" aria-controls="tab-settings" aria-selected="false" class="tab" tabindex="-1"><svg class="ic"><use href="#i-sliders"/></svg><span>Settings</span></button>
+      <button role="tab" id="t-science" aria-controls="tab-science" aria-selected="false" class="tab" tabindex="-1"><svg class="ic"><use href="#i-flask"/></svg><span>Science</span></button>
+    </nav>
+
+    <div class="tab-body">
+      <!-- PLAY -->
+      <section id="tab-play" role="tabpanel" aria-labelledby="t-play" class="panel-stack">
+        <div class="first-time" id="firstTime">
+          <svg class="ic"><use href="#i-info"/></svg>
+          <p><b>First time?</b> Start the full demo with Guided mode on. The game tells you every button to press. <button class="link" type="button" data-goto="guide">Read the 2-minute guide</button></p>
+        </div>
+        <button class="btn btn-primary btn-xl" id="bRun" type="button">
+          <svg class="ic"><use href="#i-play"/></svg>
+          <span class="btn-text"><b>Start the full demo</b><small>6 stages · about 4 minutes · one refill on the mesa</small></span>
+        </button>
+        <label class="switch-row" for="optGuided">
+          <span class="sw-text"><b>Guided mode</b><small>Slows the game down at each key moment and shows what to press.</small></span>
+          <input type="checkbox" id="optGuided" role="switch" class="switch">
+        </label>
+
+        <h3 class="section-title">Practice one stage</h3>
+        <div class="stage-cards">
+          <button class="stage-card" data-practice="0" type="button">
+            <svg viewBox="0 0 120 48" class="mini-diagram" aria-hidden="true"><path d="M6 40h108" class="d-road"/><path d="M14 30h30" class="d-motion"/><path d="M50 24h46l6 6-6 6H50z" class="d-car"/><path d="M20 22h20M24 16h14" class="d-motion"/></svg>
+            <span class="sc-top"><span class="num">1</span><span class="pill ok">Easy</span></span>
+            <b>Launch</b><small>Hit 60 mph in under a second.</small>
+          </button>
+          <button class="stage-card" data-practice="1" type="button">
+            <svg viewBox="0 0 120 48" class="mini-diagram" aria-hidden="true"><path d="M6 44h108" class="d-road"/><path d="M84 44a20 20 0 0 0 0-40" class="d-ramp"/><path d="M84 4C68 4 60 10 54 22 50 31 47 38 44 43" class="d-path"/><circle cx="44" cy="42" r="2.5" class="d-dot"/></svg>
+            <span class="sc-top"><span class="num">2</span><span class="pill warn">Medium</span></span>
+            <b>Invert</b><small>Loop upside down, roll, land softly.</small>
+          </button>
+          <button class="stage-card" data-practice="2" type="button">
+            <svg viewBox="0 0 120 48" class="mini-diagram" aria-hidden="true"><path d="M6 44h108" class="d-road"/><path d="M46 44v-8h7v8M56 44v-9h7v9M66 44v-10h7v10M76 44v-8h7v8M86 44v-18h9v18" class="d-cars"/><path d="M110 42C96 4 46 4 30 42" class="d-path"/><circle cx="70" cy="14" r="7" class="d-spin"/></svg>
+            <span class="sc-top"><span class="num">3</span><span class="pill crit">Hard</span></span>
+            <b>Kickflip</b><small>Jump the five cars and roll 360°.</small>
+          </button>
+          <button class="stage-card" data-practice="3" type="button">
+            <svg viewBox="0 0 120 48" class="mini-diagram" aria-hidden="true"><path d="M6 44h40l40-26h28" class="d-road"/><rect x="92" y="8" width="18" height="6" class="d-pad"/><path d="M14 38l36-1" class="d-motion"/><circle cx="101" cy="14" r="2.5" class="d-dot"/></svg>
+            <span class="sc-top"><span class="num">4</span><span class="pill ok">Easy</span></span>
+            <b>Climb &amp; refill</b><small>Up the hill to the mesa. Refill the tank.</small>
+          </button>
+          <button class="stage-card" data-practice="4" type="button">
+            <svg viewBox="0 0 120 48" class="mini-diagram" aria-hidden="true"><path d="M6 14h44v34M80 24v22h34" class="d-road"/><path d="M50 12c10-8 22-6 30 10" class="d-path"/><circle cx="80" cy="22" r="2.5" class="d-dot"/><path d="M52 14v30M78 24v22" class="d-cliff"/></svg>
+            <span class="sc-top"><span class="num">5</span><span class="pill crit">Hard</span></span>
+            <b>Canyon jump</b><small>Jump a 42 m gap down to a lower ledge.</small>
+          </button>
+          <button class="stage-card" data-practice="5" type="button">
+            <svg viewBox="0 0 120 48" class="mini-diagram" aria-hidden="true"><path d="M6 44h60" class="d-road"/><rect x="70" y="20" width="40" height="24" class="d-cars"/><path d="M30 42c6-30 30-34 58-26" class="d-path"/><circle cx="88" cy="16" r="2.5" class="d-dot"/></svg>
+            <span class="sc-top"><span class="num">6</span><span class="pill warn">Medium</span></span>
+            <b>Summit hover</b><small>Rise 10 m onto the tower pad with the air you have left.</small>
+          </button>
+        </div>
+        <button class="btn btn-ghost" id="bAuto" type="button"><svg class="ic"><use href="#i-eye"/></svg><span class="btn-text"><b>Watch it drive itself</b><small>See a perfect run first. The event car drove itself too.</small></span></button>
+        <div class="best" id="bestBox" hidden></div>
+      </section>
+
+      <!-- HOW TO PLAY (filled by ui.js from the same steps the in-game coach uses) -->
+      <section id="tab-guide" role="tabpanel" aria-labelledby="t-guide" class="panel-stack" hidden>
+        <div class="seg" role="radiogroup" aria-label="Show controls for">
+          <button role="radio" aria-checked="true" data-input="kb" type="button"><svg class="ic"><use href="#i-keyboard"/></svg>Keyboard</button>
+          <button role="radio" aria-checked="false" data-input="touch" type="button"><svg class="ic"><use href="#i-touch"/></svg>Touch screen</button>
+        </div>
+        <div id="guideBody"></div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section id="tab-settings" role="tabpanel" aria-labelledby="t-settings" class="panel-stack" hidden>
+        <h3 class="section-title">Gameplay</h3>
+        <div class="setting-group">
+          <label class="switch-row" for="optAssist"><span class="sw-text"><b>Flight assist</b><small>Keeps the nose level, finishes your rolls and softens landings. Recommended.</small></span><input type="checkbox" id="optAssist" role="switch" class="switch"></label>
+          <label class="switch-row" for="optGuided2"><span class="sw-text"><b>Guided mode</b><small>Pauses in slow motion at key moments until you press the right button.</small></span><input type="checkbox" id="optGuided2" role="switch" class="switch"></label>
+          <div class="row-setting"><span class="sw-text"><b>Speed units</b></span>
+            <div class="seg small" role="radiogroup" aria-label="Speed units" id="optUnits"><button role="radio" data-v="mph" type="button">mph</button><button role="radio" data-v="kmh" type="button">km/h</button></div>
+          </div>
+        </div>
+        <h3 class="section-title">Display &amp; sound</h3>
+        <div class="setting-group">
+          <div class="row-setting"><span class="sw-text"><b>Graphics</b><small>Battery saver lowers resolution and effects on phones.</small></span>
+            <div class="seg small" role="radiogroup" aria-label="Graphics quality" id="optQuality"><button role="radio" data-v="auto" type="button">Auto</button><button role="radio" data-v="high" type="button">High</button><button role="radio" data-v="low" type="button">Saver</button></div>
+          </div>
+          <label class="switch-row" for="optSound"><span class="sw-text"><b>Sound</b><small>Motor whine, thruster hiss and fans.</small></span><input type="checkbox" id="optSound" role="switch" class="switch"></label>
+          <label class="switch-row" for="optShake"><span class="sw-text"><b>Camera shake</b><small>Turn off if motion makes you uncomfortable.</small></span><input type="checkbox" id="optShake" role="switch" class="switch"></label>
+        </div>
+        <h3 class="section-title">Test conditions</h3>
+        <div class="setting-group sliders">
+          <label for="optTemp"><span><b>Air temperature</b><output id="oTemp">24 °C</output></span><input type="range" id="optTemp" min="0" max="40" step="1"><small>Warmer air in the tank gives more pressure.</small></label>
+          <label for="optRH"><span><b>Humidity</b><output id="oRH">55%</output></span><input type="range" id="optRH" min="10" max="95" step="5"><small>More moisture makes a thicker white cloud.</small></label>
+          <label for="optReg"><span><b>Regulator pressure</b><output id="oReg">80 bar</output></span><input type="range" id="optReg" min="50" max="150" step="5"><small>Higher means stronger thrust, but the tank runs low sooner.</small></label>
+          <label for="optFill"><span><b>Air loaded</b><output id="oFill">250 kg</output></span><input type="range" id="optFill" min="120" max="250" step="5"><small id="oFillNote">≈ 426 bar at 24 °C</small></label>
+        </div>
+        <h3 class="section-title">App</h3>
+        <div class="setting-group">
+          <div class="row-setting" id="installRow"><span class="sw-text"><b>Install as an app</b><small id="installNote">Adds Cold Gas Roadster to your home screen. It opens full screen and works offline.</small></span><button class="btn btn-small" id="bInstall" type="button"><svg class="ic"><use href="#i-install"/></svg>Install</button></div>
+          <div class="row-setting"><span class="sw-text"><b>Full screen</b><small>Hides the browser bars while you play.</small></span><button class="btn btn-small" id="bFull" type="button"><svg class="ic"><use href="#i-expand"/></svg>Go full screen</button></div>
+          <div class="row-setting"><span class="sw-text"><b>Reset settings</b><small>Puts every option back to its default.</small></span><button class="btn btn-small" id="bReset" type="button"><svg class="ic"><use href="#i-retry"/></svg>Reset</button></div>
+        </div>
+      </section>
+
+      <!-- SCIENCE -->
+      <section id="tab-science" role="tabpanel" aria-labelledby="t-science" class="panel-stack" hidden>
+        <p class="lead">The Roadster's thrusters burn nothing. They release air stored at about 425 bar. Here's the chain from tank to nozzle, and what each part does to the gas.</p>
+        <svg viewBox="0 0 440 110" class="chain" role="img" aria-label="Diagram: tank, regulator, valve, nozzle, plume">
+          <rect x="6" y="28" width="96" height="54" rx="27" class="c-tank"/><text x="54" y="59" class="c-t">Tank</text><text x="54" y="100" class="c-s">425 bar · 24 °C</text>
+          <path d="M102 55h34" class="c-pipe"/><rect x="136" y="38" width="62" height="34" rx="6" class="c-box"/><text x="167" y="59" class="c-t">Regulator</text><text x="167" y="100" class="c-s">80 bar</text>
+          <path d="M198 55h34" class="c-pipe"/><circle cx="248" cy="55" r="16" class="c-box"/><text x="248" y="59" class="c-t">Valve</text><text x="248" y="100" class="c-s">12 ms</text>
+          <path d="M264 55h20" class="c-pipe"/><path d="M284 48h10l26-14v42l-26-14h-10z" class="c-box"/><text x="302" y="100" class="c-s">Mach 3.5</text>
+          <path d="M330 34c30 0 50-8 100-14M330 76c30 0 50 8 100 14M330 55h100" class="c-plume"/><text x="384" y="59" class="c-t">−200 °C jet</text>
+        </svg>
+        <div class="sci-cards">
+          <article><h4><span class="num">1</span>Storage</h4><p>Two carbon-wrapped vessels hold 250 kg of air in 600 litres. At that density the air is about 20% stiffer than an ideal gas.</p></article>
+          <article><h4><span class="num">2</span>The tank gets cold</h4><p>The air left inside does the work of pushing the rest out, and pays for it with its own heat. After a full run it is near −95 °C, so the pressure falls faster than the mass does.</p></article>
+          <article><h4><span class="num">3</span>The regulator</h4><p>It steps 425 bar down to a steady 80 bar so thrust stays even. Once the tank drops below 80 bar it can't keep up, and thrust fades.</p></article>
+          <article><h4><span class="num">4</span>The nozzle</h4><p>The throat runs at the speed of sound, so flow depends only on pressure and temperature. The bell speeds the jet to about Mach 3.5, near 650 m/s.</p></article>
+          <article><h4><span class="num">5</span>Refilling heats it up</h4><p>On the mesa a ground cart pushes air back in at 12 kg/s. Compressing gas into a tank adds energy, so the gas warms as the pressure climbs, then cools again against the tank wall.</p></article>
+          <article><h4><span class="num">6</span>The white cloud</h4><p>The jet leaves at about −200 °C. Moisture in the air around it freezes into ice fog, the cloud the car landed in at the event.</p></article>
+        </div>
+        <h3 class="section-title">The numbers</h3>
+        <div class="tablewrap"><table class="facts-table">
+          <thead><tr><th>Item</th><th>Value</th><th>Source</th></tr></thead>
+          <tbody>
+            <tr><td>Air carried</td><td class="v">250 kg in 600 L</td><td><span class="pill ok">Tesla</span></td></tr>
+            <tr><td>Thruster nozzles</td><td class="v">10</td><td><span class="pill ok">Tesla</span></td></tr>
+            <tr><td>0–60 mph (live run)</td><td class="v">0.81 s</td><td><span class="pill ok">Tesla</span></td></tr>
+            <tr><td>Motor power</td><td class="v">1 MW</td><td><span class="pill ok">Tesla</span></td></tr>
+            <tr><td>Fan suction / tire grip</td><td class="v">up to 2 g / 1.26 g</td><td><span class="pill ok">Tesla</span></td></tr>
+            <tr><td>Fill pressure</td><td class="v">≈ 426 bar</td><td><span class="pill">Estimate</span></td></tr>
+            <tr><td>Regulator, nozzle thrust</td><td class="v">80 bar, 6 kN</td><td><span class="pill">Estimate</span></td></tr>
+            <tr><td>Dry mass, ramp radius</td><td class="v">1,100 kg, 6 m</td><td><span class="pill">Estimate</span></td></tr>
+            <tr><td>Mesa, canyon gap, tower</td><td class="v">18 m, 42 m, +10 m</td><td><span class="pill">Game course</span></td></tr>
+            <tr><td>Ground cart refill rate</td><td class="v">12 kg/s</td><td><span class="pill">Estimate</span></td></tr>
+          </tbody>
+        </table></div>
+        <p class="src">Event details: <a href="https://www.notateslaapp.com/news/4837/tesla-roadster-event-recap-it-flies-flips-and-hits-0-60-in-081s" target="_blank" rel="noopener">Not a Tesla App</a>, <a href="https://www.teslarati.com/tesla-roadster-downforce-fan-system/" target="_blank" rel="noopener">Teslarati</a>, <a href="https://insideevs.com/news/812151/2027-tesla-roadster-price-specs-release-date/" target="_blank" rel="noopener">InsideEVs</a>. Fan-made simulation, not affiliated with Tesla or SpaceX.</p>
+      </section>
+    </div>
+  </div>
+
+  <div class="showroom" aria-label="Car showroom">
+    <div class="swatches" role="radiogroup" aria-label="Paint colour" id="swatches">
+      <button role="radio" data-paint="#e9ebed" style="--sw:#e9ebed" aria-label="Ano White" data-tip="Ano White" type="button"></button>
+      <button role="radio" data-paint="#1d2128" style="--sw:#1d2128" aria-label="Midnight" data-tip="Midnight" type="button"></button>
+      <button role="radio" data-paint="#a5161b" style="--sw:#a5161b" aria-label="Ultra Red" data-tip="Ultra Red" type="button"></button>
+      <button role="radio" data-paint="#7c8590" style="--sw:#7c8590" aria-label="Stealth Grey" data-tip="Stealth Grey" type="button"></button>
+    </div>
+    <div class="spec-strip">
+      <div><b>0.81 s</b><span>0–60 mph</span></div>
+      <div><b>250 kg</b><span>compressed air</span></div>
+      <div><b>10</b><span>thruster nozzles</span></div>
+    </div>
+    <p class="drag-hint"><svg class="ic"><use href="#i-touch"/></svg>Drag to turn the car</p>
+  </div>
+</section>
+
+<!-- ============ GAME HUD ============ -->
+<div id="hud" hidden>
+  <header class="hud-top">
+    <button class="icon-btn" id="bPause" type="button" aria-label="Pause" data-tip="Pause (Esc)"><svg class="ic"><use href="#i-pause"/></svg></button>
+    <ol class="stepper" id="stepper" aria-label="Stages">
+      <li data-s="0"><span class="dot">1</span><span class="lbl">Launch</span></li>
+      <li data-s="1"><span class="dot">2</span><span class="lbl">Invert</span></li>
+      <li data-s="2"><span class="dot">3</span><span class="lbl">Kickflip</span></li>
+      <li data-s="3"><span class="dot">4</span><span class="lbl">Climb</span></li>
+      <li data-s="4"><span class="dot">5</span><span class="lbl">Canyon</span></li>
+      <li data-s="5"><span class="dot">6</span><span class="lbl">Summit</span></li>
+    </ol>
+    <div class="hud-tools">
+      <button class="icon-btn" id="bLab" type="button" aria-label="Gas Lab" data-tip="Gas Lab: live physics (G)"><svg class="ic"><use href="#i-flask"/></svg></button>
+      <button class="icon-btn" id="bCam" type="button" aria-label="Change camera" data-tip="Change camera (C)"><svg class="ic"><use href="#i-camera"/></svg></button>
+      <button class="icon-btn" id="bMute" type="button" aria-label="Sound on or off" data-tip="Sound on/off (M)"><svg class="ic"><use href="#i-sound" id="muteIcon"/></svg></button>
+    </div>
+  </header>
+
+  <section id="coach" class="coach" aria-live="polite">
+    <div class="coach-meta"><span class="coach-step" id="coachStep">Step 1 of 3</span><span id="coachStage">Launch</span><span class="coach-auto" id="coachAuto" hidden>Autopilot</span></div>
+    <div class="coach-title" id="coachTitle">Wait for GO</div>
+    <div class="coach-do" id="coachDo"></div>
+    <div class="coach-next" id="coachNext"></div>
+  </section>
+  <div id="strip" class="strip" aria-hidden="true"></div>
+
+  <section id="speedo" class="gauge-card" aria-label="Speed">
+    <div class="dial-wrap">
+      <svg viewBox="0 0 200 200" class="dial" aria-hidden="true">
+        <path d="M43.4 156.6A80 80 0 1 1 156.6 156.6" class="dial-bg"/>
+        <path d="M43.4 156.6A80 80 0 1 1 156.6 156.6" class="dial-val" id="spdArc" pathLength="100"/>
+      </svg>
+      <div class="dial-read"><b id="spd">0</b><span id="spdUnit">mph</span></div>
+    </div>
+    <dl class="mini-stats">
+      <div><dt id="gLbl">Accel</dt><dd id="gval">0.00 g</dd></div>
+      <div><dt>Grip</dt><dd id="grip">—</dd></div>
+      <div><dt>Motor</dt><dd id="pow">0 kW</dd></div>
+    </dl>
+    <div class="chips"><span id="modeChip" class="chip">Ground</span><span id="fanChip" class="chip">Fan</span><span id="assistChip" class="chip">Assist</span></div>
+  </section>
+
+  <section id="airbox" class="gauge-card" aria-label="Air tank">
+    <header class="air-head"><span><svg class="ic"><use href="#i-gas"/></svg>Air tank</span><span id="regChip" class="chip on">Regulated</span></header>
+    <div class="air-row">
+      <div class="ring-wrap">
+        <svg viewBox="0 0 120 120" class="ring" aria-hidden="true"><circle cx="60" cy="60" r="50" class="ring-bg"/><circle cx="60" cy="60" r="50" class="ring-val" id="airArc" pathLength="100"/></svg>
+        <div class="ring-read"><b id="tankKg">250</b><span>kg left</span></div>
+      </div>
+      <dl class="air-stats">
+        <div><dt>Pressure</dt><dd id="tP">—</dd></div>
+        <div><dt>Gas temp</dt><dd id="tT">—</dd></div>
+        <div><dt>Thrust</dt><dd id="thr">—</dd></div>
+        <div class="x"><dt>Flow</dt><dd id="mdot">—</dd></div>
+      </dl>
+    </div>
+    <div class="pgauge-wrap" aria-label="Tank pressure">
+      <svg viewBox="0 0 200 116" class="pgauge" aria-hidden="true">
+        <path d="M16 100A84 84 0 0 1 184 100" class="pg-bg"/>
+        <path d="M16 100A84 84 0 0 1 184 100" class="pg-val" id="pgArc" pathLength="100"/>
+        <line id="pgSet" x1="100" y1="100" x2="100" y2="12" class="pg-set" transform="rotate(-58 100 100)"/>
+        <g id="pgNeedle" transform="rotate(-90 100 100)"><path d="M100 100 L95.5 97 L100 24 L104.5 97Z" class="pg-needle"/></g>
+        <circle cx="100" cy="100" r="5" class="pg-hub"/>
+        <text x="16" y="114" class="pg-t">0</text><text x="100" y="114" class="pg-t" text-anchor="middle" id="pgMid">regulator</text><text x="184" y="114" class="pg-t" text-anchor="end">450</text>
+      </svg>
+      <div class="pg-read"><b id="pgVal">426</b><span>bar</span><small id="pgNote">steady</small></div>
+    </div>
+    <canvas id="nozMap" width="560" height="250" aria-label="Which of the 10 nozzles are firing"></canvas>
+    <p class="note" id="compLine"></p>
+  </section>
+
+  <div id="keysHud" class="keys-hud" aria-hidden="true">
+    <span data-k="ShiftLeft">Shift</span><span data-k="KeyA">A</span><span data-k="KeyW">W</span><span data-k="KeyS">S</span><span data-k="KeyD">D</span><span data-k="Space" class="wide">Space</span>
+  </div>
+  <div id="att" hidden><canvas id="attC" width="240" height="240"></canvas><div class="att-lbl" id="attTxt">Upright</div></div>
+  <div id="banner" class="banner" hidden aria-hidden="true"><span class="b-num" id="bNum">Stage 1</span><span class="b-name" id="bName">Launch</span><span class="b-goal" id="bGoal"></span></div>
+  <div id="lowair" class="lowair" hidden><svg class="ic"><use href="#i-warn"/></svg><span id="lowairTxt">Air low</span></div>
+  <div id="toast" aria-live="polite"><div class="t-big" id="toastBig"></div><div class="t-small" id="toastSmall"></div></div>
+  <div id="prompt" class="prompt" hidden role="alert">
+    <div class="prompt-tag"><svg class="ic"><use href="#i-info"/></svg>Slow motion: your move</div>
+    <div class="prompt-keys" id="promptKeys"></div>
+    <div class="prompt-title" id="promptTitle"></div>
+    <div class="prompt-text" id="promptText"></div>
+  </div>
+</div>
+
+<!-- ============ TOUCH CONTROLS ============ -->
+<div id="touch" aria-hidden="true" hidden>
+  <div class="t-left">
+    <div class="t-row"><button data-k="KeyA" type="button" class="t-btn" id="tRollL">◀ <small>Roll</small></button><button data-k="KeyD" type="button" class="t-btn" id="tRollR"><small>Roll</small> ▶</button></div>
+    <div class="t-row"><button data-k="KeyS" type="button" class="t-btn pedal" id="tBrake">BRAKE</button><button data-k="KeyW" type="button" class="t-btn pedal go" id="tGo">GO</button></div>
+  </div>
+  <div class="t-right">
+    <button data-k="ShiftLeft" type="button" class="t-btn boost" id="tBoost">BOOST<small>rear jets</small></button>
+    <button data-k="Space" type="button" class="t-btn lift" id="tLift">LIFT<small>hold</small></button>
+  </div>
+</div>
+
+<!-- ============ GAS LAB ============ -->
+<aside id="lab" hidden aria-label="Gas Lab">
+  <div class="lab-head"><h2><svg class="ic"><use href="#i-flask"/></svg>Gas Lab</h2><button class="icon-btn" id="bLabClose" type="button" aria-label="Close Gas Lab" data-tip="Close (G)"><svg class="ic"><use href="#i-close"/></svg></button></div>
+  <p class="lead">Live numbers from the thruster model, updated every physics step.</p>
+  <div class="spark"><div class="sp-hd"><span>Tank pressure</span><b id="skP">— bar</b></div><canvas id="spP" width="720" height="128"></canvas></div>
+  <div class="spark"><div class="sp-hd"><span>Gas temperature in the tank</span><b id="skT">— °C</b></div><canvas id="spT" width="720" height="128"></canvas></div>
+  <div class="eq"><h4>1 · What's in the tanks</h4><code id="eqTank"></code></div>
+  <div class="eq"><h4>2 · Why the tank gets cold</h4><code id="eqCool"></code></div>
+  <div class="eq"><h4>3 · Regulator</h4><code id="eqReg"></code></div>
+  <div class="eq"><h4>4 · Choked nozzle</h4><code id="eqFlow"></code></div>
+  <div class="eq"><h4>5 · Thrust</h4><code id="eqThrust"></code></div>
+  <div class="eq"><h4>6 · Why you see a cloud</h4><code id="eqCloud"></code></div>
+  <div class="eq"><h4>Event log</h4><ul id="log"></ul></div>
+</aside>
+
+<!-- ============ OVERLAYS ============ -->
+<div id="welcome" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="wTitle">
+  <div class="card small-card welcome">
+    <div class="w-dots" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+    <section class="w-slide" data-i="0">
+      <div class="eyebrow">Welcome</div>
+      <h2 id="wTitle">Fly the Roadster's reveal demo</h2>
+      <p class="muted-p">On October 15, 2026, Tesla's Roadster drove up an upside-down loop, hovered on compressed-air jets and kickflipped over five cars. Here you fly those moves, then climb a mesa, jump a canyon and land on a summit pad, all on a working model of the air system.</p>
+      <svg viewBox="0 0 440 90" class="w-course" role="img" aria-label="Course overview: launch, loop, kickflip, hill climb, canyon, summit">
+        <path d="M10 70h150M160 70a22 22 0 0 0 0-44" class="gd-road"/><path d="M160 70h60l60-34h40M320 36v30h30M350 66h30v-18h40" class="gd-road"/>
+        <path d="M320 36v30M350 66v-30" class="gd-road" opacity=".5"/>
+        <text x="14" y="86" class="gd-lbl">1 Launch</text><text x="118" y="86" class="gd-lbl">2 Loop</text><text x="186" y="86" class="gd-lbl">3 Kickflip</text><text x="236" y="26" class="gd-lbl">4 Climb</text><text x="306" y="86" class="gd-lbl">5 Canyon</text><text x="378" y="40" class="gd-lbl">6 Summit</text>
+      </svg>
+    </section>
+    <section class="w-slide" data-i="1" hidden>
+      <div class="eyebrow">Three things to know</div>
+      <h2>Read the coach, watch the tank</h2>
+      <ol class="steps w-steps">
+        <li><span class="st-title">The coach card tells you what to press</span><span class="st-do">It sits at the top of the screen and updates by itself.</span></li>
+        <li><span class="st-title">Air is your fuel</span><span class="st-do">The jets drink about 40 kg of air a second. The gauge on the right shows pressure; below 80 bar the jets weaken.</span></li>
+        <li><span class="st-title">Crashing is part of it</span><span class="st-do">You restart only that stage, and the game tells you what to change.</span></li>
+      </ol>
+    </section>
+    <section class="w-slide" data-i="2" hidden>
+      <div class="eyebrow">Ready</div>
+      <h2>Pick how you start</h2>
+      <label class="switch-row" for="wGuided"><span class="sw-text"><b>Guided mode</b><small>Slows the game at each key moment until you press the right button. Best for a first run.</small></span><input type="checkbox" id="wGuided" role="switch" class="switch" checked></label>
+      <p class="muted-p" id="wControls" style="margin-top:12px"></p>
+    </section>
+    <div class="actions">
+      <button class="btn btn-ghost" id="wBack" type="button" hidden>Back</button>
+      <button class="btn btn-primary" id="wNext" type="button">Next<svg class="ic"><use href="#i-arrow"/></svg></button>
+    </div>
+    <div class="actions w-final" hidden>
+      <button class="btn btn-primary" id="wStart" type="button"><svg class="ic"><use href="#i-play"/></svg>Start the guided demo</button>
+      <button class="btn" id="wWatch" type="button"><svg class="ic"><use href="#i-eye"/></svg>Watch the autopilot first</button>
+    </div>
+    <button class="link w-skip" id="wSkip" type="button">Skip, I'll explore the menu</button>
+  </div>
+</div>
+
+<div id="pause" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="pauseTitle">
+  <div class="card small-card">
+    <div class="eyebrow">Paused</div>
+    <h2 id="pauseTitle">Take a breath</h2>
+    <p class="muted-p">The sim is frozen with <b id="pauseKg">250</b> kg of air in the tank.</p>
+    <div class="menu-list">
+      <button class="btn btn-primary" id="bResume" type="button"><svg class="ic"><use href="#i-play"/></svg>Resume<kbd>Esc</kbd></button>
+      <button class="btn" id="bRetry2" type="button"><svg class="ic"><use href="#i-retry"/></svg>Restart this stage<kbd>R</kbd></button>
+      <button class="btn" id="bPauseGuide" type="button"><svg class="ic"><use href="#i-book"/></svg>How to play this stage</button>
+    </div>
+    <div class="setting-group compact">
+      <label class="switch-row" for="pGuided"><span class="sw-text"><b>Guided mode</b></span><input type="checkbox" id="pGuided" role="switch" class="switch"></label>
+      <label class="switch-row" for="pAssist"><span class="sw-text"><b>Flight assist</b></span><input type="checkbox" id="pAssist" role="switch" class="switch"></label>
+    </div>
+    <button class="btn btn-ghost full" id="bMenu2" type="button"><svg class="ic"><use href="#i-home"/></svg>Quit to main menu</button>
+  </div>
+</div>
+
+<div id="sheet" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+  <div class="card">
+    <div class="sheet-head"><h2 id="sheetTitle">How to play</h2><button class="icon-btn" id="bSheetClose" type="button" aria-label="Close"><svg class="ic"><use href="#i-close"/></svg></button></div>
+    <div id="sheetBody"></div>
+    <button class="btn btn-primary full" id="bSheetBack" type="button"><svg class="ic"><use href="#i-play"/></svg>Back to the game</button>
+  </div>
+</div>
+
+<div id="fail" class="overlay" hidden role="alertdialog" aria-modal="true" aria-labelledby="failReason">
+  <div class="card small-card">
+    <div class="fail-head"><span class="badge-ic crit"><svg class="ic"><use href="#i-warn"/></svg></span><div><div class="eyebrow" id="failStage">Stage 2 · Invert</div><h2 id="failReason">Hit the ground</h2></div></div>
+    <h4 class="sub-h">Why it happened</h4>
+    <p class="muted-p" id="failWhy"></p>
+    <h4 class="sub-h">How to fix it</h4>
+    <ol class="fix-list" id="failFix"></ol>
+    <div class="actions">
+      <button class="btn btn-primary" id="bRetry" type="button"><svg class="ic"><use href="#i-retry"/></svg>Try again<kbd>R</kbd></button>
+      <button class="btn" id="bWatch" type="button"><svg class="ic"><use href="#i-eye"/></svg>Show me how</button>
+    </div>
+    <div class="actions">
+      <button class="btn btn-ghost" id="bRetryFull" type="button"><svg class="ic"><use href="#i-gas"/></svg>Try with a full tank</button>
+      <button class="btn btn-ghost" id="bMenu1" type="button"><svg class="ic"><use href="#i-home"/></svg>Main menu</button>
+    </div>
+  </div>
+</div>
+
+<div id="results" class="overlay" hidden role="dialog" aria-modal="true" aria-labelledby="resTitle">
+  <div class="card results-card">
+    <div class="eyebrow" id="resEyebrow">Demo complete</div>
+    <h2 id="resTitle">All three moves landed</h2>
+    <div class="badges" id="resBadges"></div>
+    <p class="muted-p" id="resGas"></p>
+    <div class="tablewrap"><table class="res"><thead><tr><th>Stage</th><th>Your run</th><th>Air used</th></tr></thead><tbody id="resBody"></tbody></table></div>
+    <div class="actions">
+      <button class="btn btn-primary" id="bAgain" type="button"><svg class="ic"><use href="#i-retry"/></svg>Play again</button>
+      <button class="btn" id="bNext" type="button"><svg class="ic"><use href="#i-arrow"/></svg><span id="bNextTxt">Next challenge</span></button>
+      <button class="btn btn-ghost" id="bMenu3" type="button"><svg class="ic"><use href="#i-home"/></svg>Main menu</button>
+    </div>
+  </div>
+</div>
+
+<div id="rotate" class="rotate" hidden><svg class="ic"><use href="#i-info"/></svg><span>Turn your phone sideways for a wider view.</span><button class="icon-btn small" id="bRotateClose" type="button" aria-label="Dismiss"><svg class="ic"><use href="#i-close"/></svg></button></div>
+<div id="tip" role="tooltip" hidden></div>
+<div id="sr" class="sr-only" aria-live="assertive"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="js/physics.js"></script>
+<script src="js/car.js"></script>
+<script src="js/world.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/hud.js"></script>
+<script src="js/game.js"></script>
+</body>
+</html>
