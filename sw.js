@@ -1,5 +1,5 @@
 /* Cold Gas Roadster — offline support. App files: cache first. Three.js + fonts: stale-while-revalidate. */
-const CACHE = 'cgr-v3';
+const CACHE = 'cgr-v4';
 const SHELL = [
   './', './index.html', './css/app.css', './manifest.webmanifest',
   './js/physics.js', './js/car.js', './js/world.js', './js/audio.js', './js/ui.js', './js/hud.js', './js/game.js',
@@ -19,6 +19,7 @@ self.addEventListener('fetch', (e) => {
   const req = e.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
+  if (url.pathname.startsWith('/_vercel/')) return; // analytics: never cache or fall back to the page
   const cdn = /cdnjs\.cloudflare\.com|fonts\.googleapis\.com|fonts\.gstatic\.com/.test(url.host);
   if (url.origin !== location.origin && !cdn) return;
   if (cdn) {

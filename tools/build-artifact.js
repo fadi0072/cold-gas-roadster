@@ -7,6 +7,7 @@ const root = path.join(__dirname, '..');
 let html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 html = html
   .replace(/<!-- pwa:start -->[\s\S]*?<!-- pwa:end -->\n?/, '')
+  .replace(/<!-- analytics:start -->[\s\S]*?<!-- analytics:end -->\n?/, '')
   .replace(/<!doctype html>\n?/i, '')
   .replace(/<html[^>]*>\n?/i, '')
   .replace(/<\/html>\n?/i, '')
